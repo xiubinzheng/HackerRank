@@ -1,7 +1,10 @@
 package com.hakerrank.java1DArray;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.Stack;
 
 /**
  * @author Anatoly Chernysh
@@ -27,13 +30,16 @@ public class Java1DArray {
                 board[j++] = Integer.parseInt(boardItem);
             }
 
-            System.out.println(playGame(board, 0, maxJump, 0) ? "YES" : "NO");
+            System.out.println(playGame(board, 0, maxJump) ? "YES" : "NO");
         }
     }
 
-    private static boolean playGame(int []board, int start, int maxJump, int prev) {
+    private static boolean playGame(int []board, int start, int maxJump) {
         boolean isWin = false;
         int i = start;
+
+        Stack<Integer> candidates = new Stack<Integer>();
+        List<Integer> visited = new ArrayList<Integer>();
 
         for (;;) {
 
@@ -43,36 +49,42 @@ public class Java1DArray {
             }
             else if (board[i + maxJump] == 0) {
                 i = i + maxJump;
+
+                for (int j = i; j > i - maxJump; j--) {
+                    int temp = j - 1;
+                    if (temp >= 0 && board[temp] == 0) {
+                        if (!visited.contains(temp)) {
+                            candidates.push(temp);
+                            visited.add(temp);
+                        }
+                    }
+                    else {
+                        break;
+                    }
+                }
+
+                for (int j = i - maxJump; j < board.length; j++) {
+                    int temp = j;
+                    if (temp >= 0 && board[temp] == 0) {
+                        if (!visited.contains(temp)) {
+                            candidates.push(temp);
+                            visited.add(temp);
+                        }
+                    }
+                    else {
+                        break;
+                    }
+                }
+
             }
             else if (board[i + 1] == 0) {
                 i = i + 1;
             }
             else {
-                if (board[start + 1] == 0) {
-                    if (playGame(board, start + 1, maxJump, start)) {
-                        isWin = true;
-                    }
+                if (candidates.isEmpty()) {
+                    break;
                 }
-                else if (board[start + maxJump] == 0) {
-                    if (playGame(board, start + maxJump, maxJump, start)) {
-                        isWin = true;
-                    }
-                }
-                else if (start - 1 >= 0 && board[start - 1] == 0 && (start - 1) != prev) {
-                    for (int j = start - 1; ;j--) {
-                        if (j >= 0 && board[j] == 0) {
-                            if (playGame(board, j, maxJump, j + 1)) {
-                                isWin = true;
-                            }
-                            break;
-                        }
-                        else {
-                            break;
-                        }
-                    }
-                }
-
-                break;
+                i = candidates.pop();
             }
         }
 
