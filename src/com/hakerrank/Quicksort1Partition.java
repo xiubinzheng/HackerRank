@@ -42,7 +42,7 @@ public class Quicksort1Partition {
         int n = in.nextInt();
         int[] ar = new int[n];
         for(int i=0;i<n;i++){
-            ar[i]=in.nextInt();
+            ar[i] = in.nextInt();
         }
         partition(ar);
     }
