@@ -44,6 +44,37 @@ public class StringSimilarity {
         return res;
     }
 
+    // http://codeforces.com/blog/entry/3107
+    static long z(String str) {
+        int n = str.length();
+        int []z = new int[n];
+        char []s = str.toCharArray();
+
+        int L = 0, R = 0;
+        for (int i = 1; i < n; i++) {
+            if (i > R) {
+                L = R = i;
+                while (R < n && s[R-L] == s[R]) R++;
+                z[i] = R-L; R--;
+            } else {
+                int k = i-L;
+                if (z[k] < R-i+1) z[i] = z[k];
+                else {
+                    L = i;
+                    while (R < n && s[R-L] == s[R]) R++;
+                    z[i] = R-L; R--;
+                }
+            }
+        }
+
+        long res = 0;
+        for (int i = 1; i < n; i++) {
+            res += z[i];
+        }
+
+        return res;
+    }
+
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         long res;
@@ -51,7 +82,8 @@ public class StringSimilarity {
         int amountOfTestCases = Integer.parseInt(in.nextLine());
         for (int i = 0; i < amountOfTestCases; i++) {
             String str = in.nextLine();
-            res = stringSimilarityEx(str);
+            //res = stringSimilarityEx(str);
+            res = z(str) + str.length();
             System.out.println(res);
         }
     }
