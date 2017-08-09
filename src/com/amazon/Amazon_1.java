@@ -1,15 +1,17 @@
-package com.hakerrank;
+package com.amazon;
 
 import java.util.Arrays;
 
 /**
  * @author Anatoly Chernysh
  */
-public class Amazon {
+public class Amazon_1 {
 
   public static void main(String[] args) {
     // 27
-    String[] blocks = {"5", "-2", "4", "Z", "X", "9", "+", "+"};
+    //String[] blocks = {"5", "-2", "4", "Z", "X", "9", "+", "+"};
+
+    String[] blocks = {"5", "-2", "4", "Z", "X", "9", "+", "+", "4", "5", "Z", "Z"};
 
     int []scoreHistory = new int[blocks.length];
     Arrays.fill(scoreHistory, Integer.MIN_VALUE);
