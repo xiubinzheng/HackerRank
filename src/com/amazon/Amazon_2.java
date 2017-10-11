@@ -1,8 +1,6 @@
 package com.amazon;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * @author Anatoly Chernysh
@@ -19,7 +17,7 @@ public class Amazon_2 {
         B.addSimilarMovie(D);
         System.out.println("Highest rated movies: ");
         // the result should be B, D
-        System.out.println(getMovieRecommendations(A, 2));
+        System.out.println(getMovieRecommendationsWithoutRecursion(A, 2));
     }
 
     public static Set<Movie> getMovieRecommendations(Movie movie, int N) {
@@ -62,5 +60,50 @@ public class Amazon_2 {
                 }
             }
         }
+    }
+
+    public static List<Movie> getMovieRecommendationsWithoutRecursion(Movie movie, int N) {
+        if (movie == null) {
+            return null;
+        }
+
+        class MovieComparatorByRating implements Comparator<Movie> {
+            public int compare(Movie o1, Movie o2) {
+                return (o2.getRating() - o1.getRating()) > 0 ? 1 : -1;
+            }
+        }
+
+        LinkedList<Movie> queue = new LinkedList<>();
+        queue.addAll(movie.getSimilarMovies());
+
+        TreeSet<Movie> topRatedMovies = new TreeSet<>(new MovieComparatorByRating());
+        topRatedMovies.addAll(movie.getSimilarMovies());
+        while (topRatedMovies.size() > N) {
+            topRatedMovies.pollLast();
+        }
+
+        HashSet<Movie> visitedMovies = new HashSet<>();
+
+        while (!queue.isEmpty()) {
+            Movie m = queue.poll();
+            for (Movie mm : m.getSimilarMovies()) {
+                if (!visitedMovies.contains(mm)) {
+                    queue.add(mm);
+                    visitedMovies.add(mm);
+                    topRatedMovies.add(mm);
+
+                    while (topRatedMovies.size() > N) {
+                        topRatedMovies.pollLast();
+                    }
+                }
+            }
+        }
+
+        List<Movie> list = new ArrayList<Movie>(N);
+        for (Movie m : topRatedMovies) {
+            list.add(m);
+        }
+
+        return list;
     }
 }
