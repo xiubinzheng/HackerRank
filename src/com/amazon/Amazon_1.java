@@ -1,7 +1,5 @@
 package com.amazon;
 
-import java.util.Arrays;
-
 /**
  * @author Anatoly Chernysh
  *
