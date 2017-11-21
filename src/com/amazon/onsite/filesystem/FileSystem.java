@@ -35,8 +35,10 @@ public class FileSystem {
         }
 
         for (FSNode node : root.getNodes()) {
-            if (node.isFile() && node.getName().equals(fileName)) {
-                paths.add(node.getPath());
+            if (node.isFile()) {
+                if (node.getName().equals(fileName)) {
+                    paths.add(node.getPath());
+                }
             }
             else {
                 helperFindPaths((Directory)node, fileName, paths);
@@ -66,6 +68,10 @@ public class FileSystem {
         file1.setPath("/root/directory/");
         directory.getNodes().add(file1);
 
+        File file2 = new File();
+        file2.setName("file.txt");
+        file2.setPath("/root/directory/");
+        directory.getNodes().add(file2);
 
         System.out.println(FileSystem.findPaths(root, "root.txt"));
     }
