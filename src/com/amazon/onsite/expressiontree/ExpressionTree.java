@@ -44,11 +44,49 @@ public class ExpressionTree {
         }
     }
 
+    public Object evaluate(Node node) {
+        if (node != null) {
+            if (!isOperator(node.getValue())) {
+                return node.getValue();
+            }
+
+            Object leftValue = evaluate(node.getLeft());
+            Object rightValue = evaluate(node.getRight());
+            return calculate(leftValue, rightValue, node.getValue());
+        }
+        return null;
+    }
+
+    public Object calculate(Object leftValue, Object rightValue, char value) {
+        if (value == '+') {
+            return Integer.valueOf(leftValue.toString()) + Integer.valueOf(rightValue.toString());
+        }
+
+        if (value == '*') {
+            return Integer.valueOf(leftValue.toString()) * Integer.valueOf(rightValue.toString());
+        }
+
+        if (value == '/') {
+            return Integer.valueOf(leftValue.toString()) / Integer.valueOf(rightValue.toString());
+        }
+
+        if (value == '-') {
+            return Integer.valueOf(leftValue.toString()) - Integer.valueOf(rightValue.toString());
+        }
+
+        if (value == '^') {
+            return Integer.valueOf(leftValue.toString()) ^ Integer.valueOf(rightValue.toString());
+        }
+
+        return null;
+    }
+
     public static void main(String[] args) {
         ExpressionTree expressionTree = new ExpressionTree();
-        String postfix = "ab+ef*g*-";
+        String postfix = "593*+7-";
         char []charArray = postfix.toCharArray();
         Node root = expressionTree.constructTree(charArray);
-        expressionTree.inOrder(root);
+        //expressionTree.inOrder(root);
+        System.out.println(expressionTree.evaluate(root));
     }
 }
