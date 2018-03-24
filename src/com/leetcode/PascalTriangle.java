@@ -74,11 +74,4 @@ public class PascalTriangle {
         return result;
     }
 
-    private static void dump(Integer []data) {
-        for (Integer i : data) {
-            System.out.print(i + " ");
-        }
-        System.out.println();
-    }
-
 }
