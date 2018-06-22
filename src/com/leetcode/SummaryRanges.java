@@ -7,7 +7,7 @@ import java.util.List;
  * @author Anatoly Chernysh
  */
 public class SummaryRanges {
-           
+
     public static void main(String[] args) {
         //int nums[] = {0,1,2,4,5,7}; // 0-2, 2-5, 7
         //int nums[] = {0,1,2,4,5,6}; //
